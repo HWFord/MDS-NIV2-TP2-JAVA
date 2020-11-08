@@ -58,8 +58,7 @@ public class Tp2 {
 
     // 5 : Les utilisateurs possédant une voiture de la marque "marque1"
     
-    //List<User> usersCarMarque1 = users.stream().filter(x -> x.getCar().getCarType().getMark() == "marque1").collect(groupingBy(CarType::getMark));
-    //List<User> usersCarMarque1 = users.stream().filter(car-> carList.stream().anyMatch(mark ->  mark.getMark().equals("mark1")).collect(Collectors.toList());
+    List<User> usersCarMarque1 = users.stream().filter(x -> x.getCar().getCarType().getMark().equals("marque1")).collect(Collectors.toList());
    
 	System.out.println("Les utilisateurs possédant une voiture de la marque \"marque1\""); 
     for (User user : usersCarMarque1) {
@@ -68,21 +67,22 @@ public class Tp2 {
     
     // 6 : La première voiture avec le plus haut kilométrage
     
-    //Car carMaxMileage = users.stream().comparing(((Car)users)::getMileage);
-    //Car carMaxMileage = users.stream().max(((Car)users)::getMileage).get();
+    Car carMaxMileage = users.stream().collect(Collectors.maxBy(Comparator.comparingLong(x -> x.getCar().getMileage()))).get().getCar();
     System.out.println(String.format("%s %s", "La voiture avec le plus haut kilométrage", carMaxMileage));
 
     // 7 : La liste des voitures avec le plus haut kilométrage
-//    List<Car> carMaxMileages = users.stream();
-//    System.out.println("La liste des voitures avec le plus haut kilométrage");
-//    for (Car car : carMaxMileages) {
-//      System.out.println(String.format("\t%s", car));
-//    }
+    List<Car> carMaxMileages = users.stream().filter(x -> x.getCar().getMileage() > 400000)
+    		.sorted(Comparator.comparingLong(x -> x.getCar().getMileage())).map(User::getCar)
+    		.collect(Collectors.toList());
+    System.out.println("La liste des voitures avec le plus haut kilométrage");
+    for (Car car : carMaxMileages) {
+      System.out.println(String.format("\t%s", car));
+    }
 
     // 8 : La marque possédant le plus de voiture avec le nombre de voiture possédé
-    Entry<String, List<User>> markMaxCar = users.stream()
-    System.out.println(String.format("%s est %s avec %d voitures", "La marque possédant le plus de voiture",
-        markMaxCar.getKey(), markMaxCar.getValue().size()));
+//    Entry<String, List<User>> markMaxCar = users.stream()
+//    System.out.println(String.format("%s est %s avec %d voitures", "La marque possédant le plus de voiture",
+//        markMaxCar.getKey(), markMaxCar.getValue().size()));
 
     // 9 : Les marques possédant le moins de voiture avec chacune des voitures pour chaque marque
 //    int minCars = users.stream();
